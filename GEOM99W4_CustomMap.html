@@ -1,0 +1,104 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Custom Map Task</title>
+<style>
+html, body, #viewDiv {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    }
+</style>
+
+<link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css">
+<script src="https://js.arcgis.com/4.22/"></script>
+
+<script>
+require([
+    "esri/config",
+    "esri/Map",
+    "esri/views/MapView",
+    "esri/Graphic",
+    "esri/layers/GraphicsLayer"
+    ], function(esriConfig,Map, MapView, Graphic, GraphicsLayer) {
+
+esriConfig.apiKey = "AAPK94514f5870d44ffeaf651525c9a848aez_E4ARClsNrbgt_3Jt5vMFkyARWOQJI34UE-qt_V5_DxuZ8MLWHBjRtVTngHuA4k";
+
+const map = new Map({
+    basemap: "arcgis-midcentury" //Basemap layer service
+});
+
+const view = new MapView({
+    map: map,
+    center: [2.3360, 48.8569], //Longitude, latitude
+    zoom: 11,
+    container: "viewDiv"
+});
+
+const graphicsLayer = new GraphicsLayer();
+map.add(graphicsLayer);
+
+// Create a polygon geometry
+const polygon = {
+    type: "polygon",
+    rings: [
+        [2.3541641235351496, 48.876457644366816],
+        [2.344894409179681, 48.88142495734278],
+        [2.3294448852538996, 48.88910074349772],
+        [2.3129653930663996, 48.891358103445924],
+        [2.2985458374023366, 48.887746278609676],
+        [2.2906494140624933, 48.881199181090906],
+        [2.2896194458007746, 48.87397380289263],
+        [2.2961425781249933, 48.85974578950385],
+        [2.311935424804681, 48.84460997116044],
+        [2.3291015624999933, 48.832181625698475],
+        [2.353477478027337, 48.81726354056436],
+        [2.3733901977538996, 48.82992159521573],
+        [2.3936462402343683, 48.84528779222651],
+        [2.411842346191399, 48.86335963646481],
+        [2.4145889282226496, 48.871715658170324],
+        [2.4132156372070246, 48.88007028454358],
+        [2.3991394042968683, 48.88932648407874],
+        [2.382316589355462, 48.890229436211165],
+        [2.3682403564453054, 48.88706903240703],
+        [2.3541641235351496, 48.876457644366816]
+    ]
+};
+
+const simpleFillSymbol = {
+    type: "simple-fill",
+    color: [235, 64, 52, 0.5],  // Red, opacity 80%
+    outline: {
+        color: [255, 255, 255],
+        width: 1
+    }
+};
+
+const popupTemplate = {
+    title: "{Name}",
+    content: "{Description}"
+}
+
+const attributes = {
+    Name: "Paris",
+    Description: "The most romantic city in the world!"
+}
+
+const polygonGraphic = new Graphic({
+    geometry: polygon,
+    symbol: simpleFillSymbol,
+    attributes: attributes,
+    popupTemplate: popupTemplate
+});
+
+graphicsLayer.add(polygonGraphic);
+
+});
+</script>
+</head>
+<body>
+    <div id="viewDiv"></div>
+</body>
+</html>
